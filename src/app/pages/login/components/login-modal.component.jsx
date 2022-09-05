@@ -87,14 +87,26 @@ export const LoginButton = styled.button`
   }
 `;
 
-const LoginModal = ({ toRegister }) => {
+const LoginModal = ({ toRegister, userInfo, handleInput, submit }) => {
   return (
     <LoginContainer>
       <Login>
         <h1>Login</h1>
-        <LoginForm>
-          <LoginInput type="text" placeholder="Enter your username" />
-          <LoginInput type="password" placeholder="Enter your password" />
+        <LoginForm onSubmit={submit}>
+          <LoginInput
+            name="username"
+            type="text"
+            placeholder="Enter your username"
+            value={userInfo?.username}
+            onChange={handleInput}
+          />
+          <LoginInput
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+            value={userInfo?.password}
+            onChange={handleInput}
+          />
           <LoginButton type="submit">Log In</LoginButton>
         </LoginForm>
         <LoginBr>or</LoginBr>

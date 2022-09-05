@@ -15,7 +15,7 @@ const RegisterForm = styled(LoginForm)``;
 const RegisterInput = styled(LoginInput)``;
 const RegisterButton = styled(LoginButton)``;
 
-const RegisterModal = ({ userInfo, setUserInfo, handleInput, submit }) => {
+const RegisterModal = ({ userInfo, handleInput, submit }) => {
   return (
     <RegisterContainer>
       <Register>

@@ -1,18 +1,10 @@
-import { useState } from "react";
 import { db } from "../../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
 
-const USER_TEMPLATE = { username: "", password: "" };
+import { useInputForm, USER_TEMPLATE } from "../../hooks/useInputForm.hook";
 
 export const useRegisterHook = () => {
-  const [userInfo, setUserInfo] = useState(USER_TEMPLATE);
-
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    setUserInfo((user) => {
-      return { ...user, [name]: value };
-    });
-  };
+  const { userInfo, setUserInfo, handleInput } = useInputForm();
 
   const submit = (e) => {
     e.preventDefault();
@@ -26,7 +18,6 @@ export const useRegisterHook = () => {
 
   return {
     userInfo,
-    setUserInfo,
     handleInput,
     submit,
   };

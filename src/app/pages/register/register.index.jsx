@@ -15,12 +15,11 @@ const RegisterContainer = styled.section`
   background-color: rgba(238, 238, 238, 0.5);
 `;
 const Register = () => {
-  const { userInfo, setUserInfo, handleInput, submit } = useRegisterHook();
+  const { userInfo, handleInput, submit } = useRegisterHook();
   return (
     <RegisterContainer>
       <RegisterModal
         userInfo={userInfo}
-        setUserInfo={setUserInfo}
         handleInput={handleInput}
         submit={submit}
       />

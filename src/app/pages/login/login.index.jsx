@@ -15,11 +15,24 @@ const LoginPageContainer = styled.section`
   background-color: rgba(238, 238, 238, 0.5);
 `;
 const Login = () => {
-  const { navigateToRegister } = useLoginHook();
+  const { loggedUser, userInfo, handleInput, submit, navigateToRegister } =
+    useLoginHook();
+
   return (
-    <LoginPageContainer>
-      <LoginModal toRegister={navigateToRegister} />
-    </LoginPageContainer>
+    <>
+      {loggedUser?.id !== undefined ? (
+        <div>{JSON.stringify(loggedUser)}</div>
+      ) : (
+        <LoginPageContainer>
+          <LoginModal
+            toRegister={navigateToRegister}
+            userInfo={userInfo}
+            handleInput={handleInput}
+            submit={submit}
+          />
+        </LoginPageContainer>
+      )}
+    </>
   );
 };
 
