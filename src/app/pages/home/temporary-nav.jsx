@@ -11,6 +11,9 @@ const TmpNav = () => {
       case "register":
         navigate("/register");
         break;
+      case "project":
+        navigate("/user/project");
+        break;
       default:
         navigate("/");
         break;
@@ -23,6 +26,9 @@ const TmpNav = () => {
       </button>
       <button name="register" onClick={navigateTo}>
         navigate to register
+      </button>
+      <button name="project" onClick={navigateTo}>
+        navigate to project
       </button>
     </>
   );

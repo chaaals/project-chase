@@ -1,18 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { db } from "../../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 
+import AppContext from "../../context/AppContext";
+
 import { useInputForm, USER_TEMPLATE } from "../../hooks/useInputForm.hook";
 
 export const useLoginHook = () => {
+  const { user, setUser } = useContext(AppContext);
+  const { userInfo, setUserInfo, handleUserInput } = useInputForm();
+
   const [users, setUsers] = useState([]);
   const [loggedUser, setLoggedUser] = useState({});
-  const { userInfo, setUserInfo, handleInput } = useInputForm();
+
   const navigate = useNavigate();
 
   const navigateToRegister = () => navigate("/register");
+
+  const redirectToDashboard = () => navigate("/user/project");
 
   const submit = (e) => {
     e.preventDefault();
@@ -34,7 +41,8 @@ export const useLoginHook = () => {
         user.password === loggedUser.password
       ) {
         console.log("account matched, setting up new logged user");
-        setLoggedUser(user);
+        setUser(user);
+        navigate("/user/project");
       }
       return user;
     });
@@ -46,11 +54,13 @@ export const useLoginHook = () => {
 
   console.log(loggedUser, users);
   return {
-    loggedUser,
-    getUsers,
+    user,
     userInfo,
-    handleInput,
+
+    handleUserInput,
     submit,
+
     navigateToRegister,
+    redirectToDashboard,
   };
 };
