@@ -7,6 +7,9 @@ import useProjectHook from "./project.hook";
 import CreateProjectComponent from "./components/create-project.component";
 import ProjectCard from "./components/project-card.component";
 import ProjectSidebar from "./components/project-sidebar.component";
+import ProjectPreview from "./components/project-preview.component";
+
+import NewTaskComponent from "./components/new-task.component";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
@@ -79,45 +82,101 @@ const ProjectCardsContainer = styled.div`
   }
 `;
 
+export const isInPath = (pathname) =>
+  window.location.pathname.split("/").includes(pathname);
+
 const Project = () => {
   const {
     user,
     projects,
+    projectId,
+
     createProject,
+    goToProject,
+
     projectInfo,
     handleProjectInput,
     onProjectCreate,
-    navigateBack,
+
+    task,
+    handleTaskInput,
+    createTask,
+    onTaskCreate,
+
+    tasks,
+
+    navigateToProjects,
+    navigateToProject,
+    logOut,
   } = useProjectHook(AppContext);
   return (
     <ProjectContainer>
-      {window.location.pathname.split("/").includes("create") && (
+      {isInPath("create") && (
         <CreateProjectComponent
           projectInfo={projectInfo}
           handleInput={handleProjectInput}
           onProjectCreate={onProjectCreate}
-          onExit={navigateBack}
+          onExit={navigateToProjects}
+        />
+      )}
+      {isInPath("task") && isInPath("new") && (
+        <NewTaskComponent
+          task={task}
+          handleTaskInput={handleTaskInput}
+          onExit={navigateToProject}
+          onTaskCreate={onTaskCreate}
         />
       )}
       <ProjectContent column={1}>
-        <ProjectSidebar {...user} />
+        <ProjectSidebar {...user} onLogOut={logOut} />
       </ProjectContent>
       <ProjectContent column={2}>
-        <ProjectCreateContainer>
-          <ProjectCreate onClick={createProject}>
-            <FontAwesomeIcon icon={faPenToSquare} />
-            New Project
-          </ProjectCreate>
-        </ProjectCreateContainer>
-        <ProjectCardsContainer>
-          {projects.length !== 0 &&
-            projects.map((props) => {
-              return <ProjectCard key={props.id} {...props} />;
-            })}
-        </ProjectCardsContainer>
+        {isInPath("preview") ? (
+          <ProjectPreview
+            project={projects.filter((project) => project.id === projectId)}
+            tasks={tasks}
+            createTask={createTask}
+            goToProjects={navigateToProjects}
+          />
+        ) : (
+          <ProjectsDashboard
+            projects={projects}
+            createProject={createProject}
+            goToProject={goToProject}
+          />
+        )}
       </ProjectContent>
     </ProjectContainer>
   );
 };
+
+const ProjectsDashboard = ({ projects, createProject, goToProject }) => {
+  return (
+    <>
+      <ProjectCreateContainer>
+        <ProjectCreate onClick={createProject}>
+          <FontAwesomeIcon icon={faPenToSquare} />
+          New Project
+        </ProjectCreate>
+      </ProjectCreateContainer>
+      <ProjectCardsContainer>
+        {projects.length !== 0 &&
+          projects.map((props) => {
+            return (
+              <ProjectCard key={props.id} {...props} onClick={goToProject} />
+            );
+          })}
+      </ProjectCardsContainer>
+    </>
+  );
+};
+
+// const ProjectPreview = ({ projects, projectId }) => {
+//   return (
+//     <h1>
+//       {JSON.stringify(projects.filter((project) => project.id === projectId))}
+//     </h1>
+//   );
+// };
 
 export default Project;

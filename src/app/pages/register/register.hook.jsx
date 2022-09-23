@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { db } from "../../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
 
@@ -12,6 +13,9 @@ const NEW_PROJECT_TEMPLATE = {
 
 export const useRegisterHook = () => {
   const { userInfo, setUserInfo, handleUserInput } = useInputForm();
+  const navigate = useNavigate();
+
+  const exitModal = () => navigate("/");
 
   const submit = (e) => {
     e.preventDefault();
@@ -35,5 +39,7 @@ export const useRegisterHook = () => {
     userInfo,
     handleUserInput,
     submit,
+
+    exitModal,
   };
 };

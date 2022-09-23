@@ -21,6 +21,8 @@ export const useLoginHook = () => {
 
   const redirectToDashboard = () => navigate("/user/project");
 
+  const exitModal = () => navigate("/");
+
   const submit = (e) => {
     e.preventDefault();
     getUsers();
@@ -62,5 +64,6 @@ export const useLoginHook = () => {
 
     navigateToRegister,
     redirectToDashboard,
+    exitModal,
   };
 };

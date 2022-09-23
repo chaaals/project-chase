@@ -87,6 +87,19 @@ export const LoginButton = styled.button`
   }
 `;
 
+export const ExitModal = styled.button`
+  font-size: 1.5rem;
+  color: var(--primary-color);
+
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  position: absolute;
+  top: 40px;
+  right: 50px;
+`;
+
 const LoginModal = ({ toRegister, userInfo, handleInput, submit }) => {
   return (
     <LoginContainer>

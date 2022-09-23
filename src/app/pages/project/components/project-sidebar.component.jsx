@@ -24,6 +24,7 @@ const Sidebar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
 
   height: 100%;
   flex-direction: column;
@@ -53,6 +54,8 @@ const SidebarItem = styled.div`
 
   transition: 300ms ease-in-out;
   border: none;
+
+  cursor: pointer;
 `;
 
 const Username = styled.p`
@@ -67,7 +70,7 @@ const LogoutButton = styled.button`
   align-self: end;
 
   font-family: "Oxygen Regular";
-  font-size: 0.85rem;
+  font-size: 1rem;
 
   color: var(--secondary-color);
   background-color: transparent;
@@ -82,10 +85,10 @@ const Divider = styled.div`
   opacity: 0.5;
 `;
 
-const ProjectSidebar = ({ username = "chaaals" }) => {
+const ProjectSidebar = ({ username = "chaaals", onLogOut }) => {
   return (
     <SidebarContainer>
-      <ChaseLogo />
+      <ChaseLogo align="flex-start" />
       <Sidebar>
         <Username>
           Welcome to your dashboard, <strong>{username}</strong>
@@ -93,10 +96,10 @@ const ProjectSidebar = ({ username = "chaaals" }) => {
         <Divider />
         <SidebarItemContainer>
           <SidebarItem>
-            Projects <FontAwesomeIcon icon={faAnglesRight} />
+            Your Projects <FontAwesomeIcon icon={faAnglesRight} />
           </SidebarItem>
         </SidebarItemContainer>
-        <LogoutButton>
+        <LogoutButton onClick={onLogOut}>
           Logout <FontAwesomeIcon icon={faArrowRightFromBracket} />
         </LogoutButton>
       </Sidebar>

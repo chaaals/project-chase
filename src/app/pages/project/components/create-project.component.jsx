@@ -11,7 +11,7 @@ const CreateProjectModal = styled.div`
   align-items: flex-start;
   justify-content: center;
 
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.95);
   width: 100vw;
   height: 100vh;
 
