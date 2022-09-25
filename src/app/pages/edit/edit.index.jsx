@@ -16,7 +16,6 @@ const Edit = ({ onExit, onSubmit, onTaskEdit, onTaskDelete }) => {
     updateTask,
     handleEditTaskInput,
   } = useEditHook(AppContext);
-  console.log(updateProject);
 
   return (
     <>

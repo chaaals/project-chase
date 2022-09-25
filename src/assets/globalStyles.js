@@ -33,4 +33,9 @@ export const GlobalStyles = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
     }
+
+    body{
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 `;

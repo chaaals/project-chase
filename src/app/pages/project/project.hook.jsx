@@ -70,7 +70,6 @@ const useProjectHook = (context) => {
   };
 
   const goToProject = (e) => {
-    console.log(e.target);
     const project_id = e.target
       .closest(".project-card")
       .getAttribute("data-projectid");
@@ -104,7 +103,6 @@ const useProjectHook = (context) => {
 
   // Tasks
   const createTask = () => {
-    console.log(projectId);
     navigate(`/user/project/preview/${projectId}/task/new`);
   };
 
@@ -187,10 +185,6 @@ const useProjectHook = (context) => {
     }
   }, [user, newProject, projectId, newTask, selectedTask]);
 
-  console.log(projects);
-  console.log(project);
-
-  console.log(selectedTask);
   return {
     user,
     project,

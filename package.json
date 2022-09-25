@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@firebase/firestore": "^3.4.15",
+    "@fortawesome/fontawesome-free-brands": "^5.0.13",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",

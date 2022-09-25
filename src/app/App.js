@@ -2,13 +2,20 @@ import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import AppContext from "./context/AppContext";
 
+import styled from "styled-components";
+
 import Navbar from "./components/navbar/navbar.index";
+import Footer from "./components/footer/footer.component";
 
 import Home from "./pages/home/home.index";
 import Login from "./pages/login/login.index";
 import Register from "./pages/register/register.index";
 import Project from "./pages/project/project.index";
 
+const Container = styled.section`
+  width: 100vw;
+  overflow: hidden;
+`;
 function App() {
   const { user } = useContext(AppContext);
   return (
@@ -20,7 +27,7 @@ function App() {
           path="/login"
           element={
             <>
-              <Home />
+              {user?.id === undefined && <Home />}
               <Login />
             </>
           }
@@ -49,6 +56,7 @@ function App() {
           <Route path="project/create" element={<Project />} />
         </Route>
       </Routes>
+      {user?.id === undefined && <Footer />}
     </>
   );
 }

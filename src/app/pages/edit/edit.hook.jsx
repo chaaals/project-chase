@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 
 const useEditHook = (context) => {
   const { updateProject, setUpdateProject, updateTask, setUpdateTask } =
@@ -25,7 +25,7 @@ const useEditHook = (context) => {
   return {
     updateProject,
     handleEditProjectInput,
-    
+
     updateTask,
     handleEditTaskInput,
   };

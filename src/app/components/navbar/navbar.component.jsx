@@ -11,6 +11,8 @@ const NavbarContainer = styled.header`
   width: 100vw;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+  box-sizing: border-box;
   padding: 1rem 2rem;
 `;
 

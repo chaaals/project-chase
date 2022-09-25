@@ -19,7 +19,7 @@ const LoginPageContainer = styled.section`
   height: 100vh;
 
   background-color: rgba(235, 235, 235, 0.9);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
 `;

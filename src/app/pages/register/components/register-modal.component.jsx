@@ -9,7 +9,18 @@ import {
   LoginButton,
 } from "../../login/components/login-modal.component";
 
-const RegisterContainer = styled(LoginContainer)``;
+const RegisterContainer = styled(LoginContainer)`
+  animation: fadein 350ms linear forwards;
+
+  @keyframes fadein {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+`;
 const Register = styled(Login)``;
 const RegisterForm = styled(LoginForm)``;
 const RegisterInput = styled(LoginInput)``;

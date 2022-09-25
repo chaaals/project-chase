@@ -13,6 +13,17 @@ export const LoginContainer = styled.section`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
   border-radius: 12px;
+
+  animation: fadein 350ms linear forwards;
+
+  @keyframes fadein {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `;
 
 export const Login = styled.div`
