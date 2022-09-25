@@ -11,7 +11,6 @@ const useNewTaskForm = () => {
       return { ...prevState, [name]: value };
     });
   };
-  console.log(task);
 
   return { task, setTask, handleTaskInput };
 };

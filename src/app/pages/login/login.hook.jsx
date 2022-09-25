@@ -36,13 +36,11 @@ export const useLoginHook = () => {
   };
 
   const matchLoggedUser = () => {
-    console.log("I was ran");
     users.map((user) => {
       if (
         user.username === loggedUser.username &&
         user.password === loggedUser.password
       ) {
-        console.log("account matched, setting up new logged user");
         setUser(user);
         navigate("/user/project");
       }
@@ -54,7 +52,6 @@ export const useLoginHook = () => {
     if (!loggedUser?.id) matchLoggedUser();
   }, [users, loggedUser]);
 
-  console.log(loggedUser, users);
   return {
     user,
     userInfo,

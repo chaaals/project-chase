@@ -7,7 +7,6 @@ const useEditHook = (context) => {
   const handleEditProjectInput = (e) => {
     const { name, value } = e.target;
 
-    console.log(updateProject);
     setUpdateProject((prevData) => {
       return { ...prevData, [name]: value };
     });
@@ -16,7 +15,6 @@ const useEditHook = (context) => {
   const handleEditTaskInput = (e) => {
     const { name, value } = e.target;
 
-    console.log(updateTask);
     setUpdateTask((prevData) => {
       return { ...prevData, [name]: value };
     });
