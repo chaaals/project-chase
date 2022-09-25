@@ -21,6 +21,8 @@ export const useRegisterHook = () => {
     e.preventDefault();
     registerUser(userInfo);
     setUserInfo(USER_TEMPLATE);
+
+    navigate("/login");
   };
 
   const registerUser = async (payload) => {
