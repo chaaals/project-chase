@@ -36,9 +36,17 @@ function App() {
         />
         <Route path="/user">
           <Route path="project" element={<Project />} />
+
           <Route path="project/preview/:id" element={<Project />} />
-          <Route path="project/create" element={<Project />} />
+          <Route path="project/preview/:id/edit" element={<Project />} />
+
           <Route path="project/preview/:id/task/new" element={<Project />} />
+          <Route
+            path="project/preview/:id/selectedTask/:taskID"
+            element={<Project />}
+          />
+
+          <Route path="project/create" element={<Project />} />
         </Route>
       </Routes>
     </>

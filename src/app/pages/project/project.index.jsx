@@ -8,8 +8,9 @@ import CreateProjectComponent from "./components/create-project.component";
 import ProjectCard from "./components/project-card.component";
 import ProjectSidebar from "./components/project-sidebar.component";
 import ProjectPreview from "./components/project-preview.component";
-
 import NewTaskComponent from "./components/new-task.component";
+
+import Edit from "../edit/edit.index";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
@@ -88,26 +89,34 @@ export const isInPath = (pathname) =>
 const Project = () => {
   const {
     user,
+    project,
     projects,
-    projectId,
 
     createProject,
+    goToEditProject,
     goToProject,
+
+    onProjectUpdate,
 
     projectInfo,
     handleProjectInput,
     onProjectCreate,
 
+    tasks,
     task,
     handleTaskInput,
     createTask,
     onTaskCreate,
+    navigateToTask,
 
-    tasks,
+    onTaskEdit,
 
     navigateToProjects,
     navigateToProject,
     logOut,
+
+    deleteProject,
+    deleteTask,
   } = useProjectHook(AppContext);
   return (
     <ProjectContainer>
@@ -119,7 +128,8 @@ const Project = () => {
           onExit={navigateToProjects}
         />
       )}
-      {isInPath("task") && isInPath("new") && (
+
+      {isInPath("new") && (
         <NewTaskComponent
           task={task}
           handleTaskInput={handleTaskInput}
@@ -127,16 +137,30 @@ const Project = () => {
           onTaskCreate={onTaskCreate}
         />
       )}
+
+      {(isInPath("edit") || isInPath("selectedTask")) && (
+        <Edit
+          onExit={navigateToProject}
+          onSubmit={onProjectUpdate}
+          onTaskEdit={onTaskEdit}
+          onTaskDelete={deleteTask}
+        />
+      )}
+
       <ProjectContent column={1}>
         <ProjectSidebar {...user} onLogOut={logOut} />
       </ProjectContent>
+
       <ProjectContent column={2}>
         {isInPath("preview") ? (
           <ProjectPreview
-            project={projects.filter((project) => project.id === projectId)}
+            project={project}
             tasks={tasks}
             createTask={createTask}
             goToProjects={navigateToProjects}
+            goToEditProject={goToEditProject}
+            navigateToTask={navigateToTask}
+            deleteProject={deleteProject}
           />
         ) : (
           <ProjectsDashboard

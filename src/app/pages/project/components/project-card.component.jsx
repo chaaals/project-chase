@@ -15,6 +15,8 @@ const CardContainer = styled.div`
   animation: fadein 1s linear forwards;
   transition: 300ms ease-in-out;
 
+  position: relative;
+
   &:hover {
     background-color: rgba(238, 238, 238);
   }
@@ -33,6 +35,10 @@ const CardContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+
+  ${({ justify }) => {
+    if (justify) return `justify-self: end;`;
+  }}
 `;
 
 const CardHeading = styled.h1`
@@ -57,7 +63,8 @@ const CardDate = styled.p`
   color: var(--primary-color);
 `;
 
-export const formatDate = (date) => new Date(date).toISOString().substring(0, 10);
+export const formatDate = (date) =>
+  new Date(date).toISOString().substring(0, 10);
 
 const ProjectCard = ({
   id,

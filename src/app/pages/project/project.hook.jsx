@@ -1,21 +1,49 @@
 import { useEffect, useState, useContext, useCallback } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useInputForm, PROJECT_TEMPLATE } from "../../hooks/useInputForm.hook";
 import useNewTaskForm, { TASK_TEMPLATE } from "../../hooks/useNewTaskForm.hook";
 
 import { db } from "../../../firebase-config";
-import { collection, addDoc, getDocs } from "@firebase/firestore";
+import {
+  doc,
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+} from "@firebase/firestore";
 
 import { isInPath } from "./project.index";
 
 const useProjectHook = (context) => {
-  const { user, setUser, projectId, setProjectId } = useContext(context);
+  const {
+    user,
+    setUser,
+
+    projectId,
+    setProjectId,
+
+    project,
+    setProject,
+
+    updateProject,
+
+    taskId,
+    setTaskId,
+
+    selectedTask,
+    setSelectedTask,
+
+    updateTask,
+  } = useContext(context);
+
   const { projectInfo, setProjectInfo, handleProjectInput } = useInputForm();
   const { task, setTask, handleTaskInput } = useNewTaskForm();
 
   const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
+
   const [newTask, setNewTask] = useState([]);
   const [newProject, setNewProject] = useState({});
 
@@ -42,12 +70,36 @@ const useProjectHook = (context) => {
   };
 
   const goToProject = (e) => {
+    console.log(e.target);
     const project_id = e.target
       .closest(".project-card")
       .getAttribute("data-projectid");
 
     setProjectId(project_id);
     navigate(`/user/project/preview/${project_id}`);
+  };
+
+  const goToEditProject = () => {
+    navigate(`/user/project/preview/${projectId}/edit`);
+  };
+
+  const onProjectUpdate = async (e) => {
+    e.preventDefault();
+    const projectDoc = doc(projectRef, projectId);
+
+    await updateDoc(projectDoc, { ...updateProject });
+
+    setProject(updateProject);
+    navigate(`/user/project/preview/${projectId}`);
+  };
+
+  const deleteProject = async (e) => {
+    const projectDoc = doc(projectRef, projectId);
+
+    await deleteDoc(projectDoc);
+
+    setProjectId("");
+    navigate(`/user/project`);
   };
 
   // Tasks
@@ -75,6 +127,35 @@ const useProjectHook = (context) => {
     navigate(`/user/project/preview/${projectId}`);
   };
 
+  const navigateToTask = (e) => {
+    const TASK_ID = e.target.closest(".task").getAttribute("data-taskid");
+
+    setSelectedTask(...tasks.filter(({ id }) => id === TASK_ID));
+    setTaskId(TASK_ID);
+    navigate(`/user/project/preview/${projectId}/selectedTask/${TASK_ID}`);
+  };
+
+  const onTaskEdit = async (e) => {
+    e.preventDefault();
+    const taskRef = collection(projectRef, projectId, "tasks");
+    const taskDoc = doc(taskRef, taskId);
+
+    await updateDoc(taskDoc, { ...updateTask });
+
+    setSelectedTask(updateTask);
+    navigate(`/user/project/preview/${projectId}`);
+  };
+
+  const deleteTask = async (e) => {
+    const taskRef = collection(projectRef, projectId, "tasks");
+    const taskDoc = doc(taskRef, taskId);
+
+    await deleteDoc(taskDoc);
+
+    setSelectedTask({});
+    navigate(`/user/project/preview/${projectId}`);
+  };
+
   // Other actions
   const navigateToProjects = useCallback(() => {
     navigate(`/user/project`);
@@ -98,35 +179,51 @@ const useProjectHook = (context) => {
   };
 
   useEffect(() => {
-    if (user?.id !== undefined) getProjects();
-    if (isInPath("preview")) getTasks();
-  }, [user, newProject, projectId, newTask]);
+    if (user?.id !== undefined && !isInPath("preview")) getProjects();
 
-  console.log(tasks);
+    if (isInPath("preview")) {
+      setProject(...projects.filter(({ id }) => id === projectId));
+      getTasks();
+    }
+  }, [user, newProject, projectId, newTask, selectedTask]);
 
-  console.log(projectId);
+  console.log(projects);
+  console.log(project);
+
+  console.log(selectedTask);
   return {
     user,
+    project,
     projects,
     projectId,
 
     createProject,
+    goToEditProject,
     goToProject,
+
+    onProjectUpdate,
 
     projectInfo,
     handleProjectInput,
     onProjectCreate,
 
+    tasks,
     task,
     handleTaskInput,
     createTask,
     onTaskCreate,
 
-    tasks,
+    selectedTask,
+    setSelectedTask,
+    navigateToTask,
+    onTaskEdit,
 
     navigateToProjects,
     navigateToProject,
     logOut,
+
+    deleteProject,
+    deleteTask,
   };
 };
 

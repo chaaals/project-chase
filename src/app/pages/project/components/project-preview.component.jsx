@@ -11,8 +11,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import Back from "../../../components/back/back.component";
-import ShowMessage from "../../../components/message/message.component";
 import Task from "./task.component";
+import EditComponent from "../../../components/edit/edit.component";
 
 import { formatDate } from "./project-card.component";
 
@@ -85,7 +85,7 @@ const CreateTask = styled.button`
   font-weight: 600;
   padding: 1em 1.35em;
 
-  background-color: transparent;
+  background-color: #fff;
   color: var(--primary-color);
 
   border: 1px solid var(--primary-color);
@@ -101,27 +101,34 @@ const CreateTask = styled.button`
   }
 `;
 
-const ProjectPreview = ({ project, tasks, createTask, goToProjects }) => {
-  const [content] = project;
-  console.log(content);
+const ProjectPreview = ({
+  project,
+  tasks,
+  createTask,
+  goToProjects,
+  goToEditProject,
+  navigateToTask,
+  deleteProject,
+}) => {
   return (
     <ProjectPreviewContainer>
       <ProjectPrev>
+        <EditComponent onEdit={goToEditProject} onDelete={deleteProject} />
         <ProjectPrevContent>
           <Back onClick={goToProjects} />
         </ProjectPrevContent>
         <ProjectPrevContent>
-          <ProjectPrevHeading>{content.project_name}</ProjectPrevHeading>
+          <ProjectPrevHeading>{project.project_name}</ProjectPrevHeading>
           <ProjectPrevText>
-            {content.date_created &&
-              `Created on ${formatDate(content.date_created)}`}
+            {project.date_created &&
+              `Created on ${formatDate(project.date_created)}`}
           </ProjectPrevText>
         </ProjectPrevContent>
 
         <ProjectPrevMidContent>
           <ProjectTextContainer>
             <ProjectPrevSubHeading>Description</ProjectPrevSubHeading>
-            <ProjectPrevText>{content.project_description}</ProjectPrevText>
+            <ProjectPrevText>{project.project_description}</ProjectPrevText>
           </ProjectTextContainer>
           <CreateTask onClick={createTask} align="center">
             <FontAwesomeIcon icon={faPenToSquare} />
@@ -131,11 +138,10 @@ const ProjectPreview = ({ project, tasks, createTask, goToProjects }) => {
 
         <ProjectPrevContent>
           <TasksHeaderComponent />
-          {tasks.length !== 0 ? (
-            <TasksContainerComponent tasks={tasks} />
-          ) : (
-            <ShowMessage />
-          )}
+          <TasksContainerComponent
+            tasks={tasks}
+            navigateToTask={navigateToTask}
+          />
         </ProjectPrevContent>
       </ProjectPrev>
     </ProjectPreviewContainer>
@@ -237,32 +243,32 @@ const TaskContainer = styled.div`
   gap: 24px;
 `;
 
-const TasksContainerComponent = ({ tasks }) => {
+const TasksContainerComponent = ({ tasks, navigateToTask }) => {
   return (
     <TasksContainer>
       <TaskContainer taskType="todos">
         {tasks.length !== 0 &&
           tasks
             .filter(({ tags }) => tags === "todos")
-            .map((task) => <Task {...task} />)}
+            .map((task) => <Task {...task} onClick={navigateToTask} />)}
       </TaskContainer>
       <TaskContainer taskType="in-progress">
         {tasks.length !== 0 &&
           tasks
             .filter(({ tags }) => tags === "in-progress")
-            .map((task) => <Task {...task} />)}
+            .map((task) => <Task {...task} onClick={navigateToTask} />)}
       </TaskContainer>
       <TaskContainer taskType="reviewing">
         {tasks.length !== 0 &&
           tasks
             .filter(({ tags }) => tags === "reviewing")
-            .map((task) => <Task {...task} />)}
+            .map((task) => <Task {...task} onClick={navigateToTask} />)}
       </TaskContainer>
       <TaskContainer taskType="finished">
         {tasks.length !== 0 &&
           tasks
             .filter(({ tags }) => tags === "finished")
-            .map((task) => <Task {...task} />)}
+            .map((task) => <Task {...task} onClick={navigateToTask} />)}
       </TaskContainer>
     </TasksContainer>
   );
